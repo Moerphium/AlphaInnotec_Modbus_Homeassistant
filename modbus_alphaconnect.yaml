@@ -1,0 +1,263 @@
+# Home Assistant Sungrow inverter integration
+# https://github.com/mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant
+# by Martin Kaiser
+#
+# last update: 2025-03-30
+#
+# Note: This YAML file will only work with Home Assistant >= 2024.10
+#
+
+modbus:
+  - name: alphaconnect
+    type: tcp
+    host: !secret alphaconnect_modbus_host_ip
+    port: !secret alphaconnect_modbus_post
+    delay: 5
+    timeout:10
+
+    sensors:
+      #Discrete Inputs (read only) (Read discrete Inputs 0x02)
+      - name: EVU (Sperrzeit)
+        unique_id: ac_evu_blocked_time
+        device_address: !secret alphaconnect_modbus_slave
+        address: 0 #ID 0
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+
+      - name: EVU 2 (smart grid)
+        unique_id: ac_evu2_smart_grid
+        device_address: !secret alphaconnect_modbus_slave
+        address: 1 #ID 1
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+
+      - name: SWT (pool thermostat)
+        unique_id: ac_swt_pool_thermostat
+        device_address: !secret alphaconnect_modbus_slave
+        address: 2 #ID 2
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+
+      - name: VD1 (compressor 1)
+        unique_id: ac_vd1_compressor_1
+        device_address: !secret alphaconnect_modbus_slave
+        address: 3 #ID 3
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+      
+      - name: VD2 (compressor 2)
+        unique_id: ac_vd2_compressor_2
+        device_address: !secret alphaconnect_modbus_slave
+        address: 4 #ID 4
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+
+      - name: ZWE1 (additional heater 1)
+        unique_id: ac_zwe1_add_heater_1
+        device_address: !secret alphaconnect_modbus_slave
+        address: 5 #ID 5
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+        
+      - name: ZWE2 (additional heater 2)
+        unique_id: ac_zwe1_add_heater_2
+        device_address: !secret alphaconnect_modbus_slave
+        address: 6 #ID 6
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+
+      # ZWE3 is not installed in every unit check your hardware
+      #- name: ZWE3 (additional heater 3)
+      #  unique_id: ac_zwe1_add_heater_3
+      #  device_address: !secret alphaconnect_modbus_slave
+      #  address: 7 #ID 7
+      #  input_type: input
+      #  data_type: string
+      #  count: 10
+      #  scan_interval: 600
+
+      #Input register (read only) (Read Input Registers 0x04)
+      - name: Outside average temperature 
+        unique_id: ac_outside_temp_avg
+        device_address: !secret alphaconnect_modbus_slave
+        address: 0 #ID 0
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Flow temperature 
+        unique_id: ac_flow_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 1 #ID 1
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Return Temperature
+        unique_id: ac_return_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 2 #ID 2
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Return Temperature External
+        unique_id: ac_return_temp_external
+        device_address: !secret alphaconnect_modbus_slave
+        address: 3 #ID 3
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Drink water temperature
+        unique_id: ac_use_water_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 4 #ID 4
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Mixing circuit 1 flow temperature
+        unique_id: ac_mix_circuit1_flow_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 5 #ID 5
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      # Mixing circuit 2 flow temperature is not installed in every unit check your hardware
+      #- name: Mixing circuit 2 flow temperature
+      #  unique_id: ac_mix_circuit2_flow_temp
+      #  device_address: !secret alphaconnect_modbus_slave
+      #  address: 6 #ID 6
+      #  input_type: input
+      #  data_type: int16
+      #  precision: 10
+      #  unit_of_measurement: °C
+      #  device_class: Temperature
+      #  state_class: measurement
+      #  scale: 0.1
+      #  scan_interval: 30
+
+      # Mixing circuit 3 flow temperature is not installed in every unit check your hardware
+      #- name: Mixing circuit 3 flow temperature
+      #  unique_id: ac_mix_circuit3_flow_temp
+      #  device_address: !secret alphaconnect_modbus_slave
+      #  address: 7 #ID 7
+      #  input_type: input
+      #  data_type: int16
+      #  precision: 10
+      #  unit_of_measurement: °C
+      #  device_class: Temperature
+      #  state_class: measurement
+      #  scale: 0.1
+      #  scan_interval: 30
+
+      - name: Hot gas temperature
+        unique_id: ac_hot_gas_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 8 #ID 8
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Heat source entry temperature
+        unique_id: ac_heat_scource_entry_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 9 #ID 9
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Heat source exit temperature
+        unique_id: ac_heat_cource_exit_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 10 #ID 10
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Room remote adjuster temperature
+        unique_id: ac_room_remote_adjuster_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 11 #ID 11
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: 
+        unique_id: ac_
+        device_address: !secret alphaconnect_modbus_slave
+        address: 0 #ID 0
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
