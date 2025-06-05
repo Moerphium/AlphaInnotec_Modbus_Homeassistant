@@ -20,7 +20,7 @@ modbus:
         address: 000 #ID 0
         input_type: discrete_input
         scan_interval: 60
-      
+
       - name: EVU2 (smart grid)
         unique_id: ac_evu2_smart_grid
         device_address: !secret alphaconnect_modbus_slave
@@ -41,7 +41,7 @@ modbus:
         address: 3 #ID 3
         input_type: discrete_input
         scan_interval: 60
-      
+
       - name: VD2 (compressor 2)
         unique_id: ac_vd2_compressor_2
         device_address: !secret alphaconnect_modbus_slave
@@ -55,7 +55,7 @@ modbus:
         address: 5 #ID 5
         input_type: discrete_input
         scan_interval: 60
-        
+
       - name: ZWE2 (additional heater 2)
         unique_id: ac_zwe1_add_heater_2
         device_address: !secret alphaconnect_modbus_slave
@@ -63,7 +63,7 @@ modbus:
         input_type: discrete_input
         scan_interval: 60
 
-    # ZWE3 is not installed in every unit check your hardware
+      # ZWE3 is not installed in every unit check your hardware
       - name: ZWE3 (additional heater 3)
         unique_id: ac_zwe1_add_heater_3
         device_address: !secret alphaconnect_modbus_slave
@@ -73,7 +73,7 @@ modbus:
 
     sensors:
       #Input register (read only) (Read Input Registers 0x04)
-      - name: Outside average temperature 
+      - name: Outside average temperature
         unique_id: ac_outside_temp_avg
         device_address: !secret alphaconnect_modbus_slave
         address: 0 #ID 0
@@ -86,7 +86,7 @@ modbus:
         scale: 0.1
         scan_interval: 60
 
-      - name: Flow temperature 
+      - name: Flow temperature
         unique_id: ac_flow_temp
         device_address: !secret alphaconnect_modbus_slave
         address: 1 #ID 1
@@ -218,7 +218,7 @@ modbus:
         scale: 0.1
         scan_interval: 30
 
-      - name: Room remote adjuster 1 temperature 
+      - name: Room remote adjuster 1 temperature
         unique_id: ac_room_remote_adjuster_temp_1
         device_address: !secret alphaconnect_modbus_slave
         address: 11 #ID 11
@@ -232,7 +232,7 @@ modbus:
         scan_interval: 30
 
       # Room remote adjuster 2 temperature is not installed in every unit check your hardware
-      - name: Room remote adjuster 2 temperature 
+      - name: Room remote adjuster 2 temperature
         unique_id: ac_room_remote_adjuster_temp_2
         device_address: !secret alphaconnect_modbus_slave
         address: 12 #ID 12
@@ -246,7 +246,7 @@ modbus:
         scan_interval: 30
 
       # Room remote adjuster 3 temperature is not installed in every unit check your hardware
-      - name: Room remote adjuster 3 temperature 
+      - name: Room remote adjuster 3 temperature
         unique_id: ac_room_remote_adjuster_temp_3
         device_address: !secret alphaconnect_modbus_slave
         address: 13 #ID 13
@@ -327,3 +327,130 @@ modbus:
         state_class: measurement
         scale: 0.1
         scan_interval: 30
+
+      - name: Compressor intake air temperature
+        unique_id: ac_compressor_intake_air_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 19 #ID 19
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Evaporator intake air temperature
+        unique_id: ac_evaporator_intake_air_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 20 #ID 20
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Compressor heater temperature
+        unique_id: ac_compressor_heater_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 21 #ID 21
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Superheating
+        unique_id: ac_superheating
+        device_address: !secret alphaconnect_modbus_slave
+        address: 22 #ID 22
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: K
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Superheating setpoint
+        unique_id: ac_superheating_setpoint
+        device_address: !secret alphaconnect_modbus_slave
+        address: 23 #ID 23
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: K
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: RBE room temperature
+        unique_id: ac_RBE_room_temp
+        device_address: !secret alphaconnect_modbus_slave
+        address: 24 #ID 24
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: RBE room temperature setpoint
+        unique_id: ac_RBE_room_temp_setpoint
+        device_address: !secret alphaconnect_modbus_slave
+        address: 25 #ID 25
+        input_type: input
+        data_type: int16
+        precision: 10
+        unit_of_measurement: °C
+        device_class: Temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 30
+
+      - name: Pressure HD
+        unique_id: ac_pressure_hd
+        device_address: !secret alphaconnect_modbus_slave
+        address: 26 #ID 26
+        input_type: input
+        data_type: int16
+        precision: 100
+        unit_of_measurement: bar
+        state_class: measurement
+        scale: 0.01
+        scan_interval: 30
+
+      - name: Pressure ND
+        unique_id: ac_pressure_nd
+        device_address: !secret alphaconnect_modbus_slave
+        address: 27 #ID 27
+        input_type: input
+        data_type: int16
+        precision: 100
+        unit_of_measurement: bar
+        state_class: measurement
+        scale: 0.01
+        scan_interval: 30
+
+      - name: Operating hours Compressor 1
+        unique_id: ac_operating_h_compressor_1
+        device_address: !secret alphaconnect_modbus_slave
+        address: 28 #id 28
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 60
