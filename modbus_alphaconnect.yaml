@@ -471,7 +471,7 @@ modbus:
         precision: 1
         unit_of_measurement: h
         state_class: measurement
-        scan_interval: 60
+        scan_interval: 600
 
       - name: Operating hours Compressor 2
         unique_id: ac_operating_h_compressor_2
@@ -483,7 +483,7 @@ modbus:
         precision: 1
         unit_of_measurement: h
         state_class: measurement
-        scan_interval: 60
+        scan_interval: 600
 
       - name: Operating hours ZWE1
         unique_id: ac_operating_h_ZWE1
@@ -495,42 +495,122 @@ modbus:
         precision: 1
         unit_of_measurement: h
         state_class: measurement
-        scan_interval: 60
+        scan_interval: 600
       
+      - name: Operating hours ZWE2
+        unique_id: ac_operating_h_ZWE2
+        device_address: !secret alphaconnect_modbus_slave
+        address: 31 #id 31
+        input_type: input
+        data_type: uint32
+        swap: word
+        scale: 0.00001
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 600
+
+      # Additional heat source 3 is not installed in every unit check your hardware
+      - name: Operating hours ZWE3
+        unique_id: ac_operating_h_ZWE3
+        device_address: !secret alphaconnect_modbus_slave
+        address: 32 #id 32
+        input_type: input
+        data_type: uint32
+        swap: word
+        scale: 0.00001
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 600
+
+      - name: Heatpump operating hours
+        unique_id: ac_operting_h_heatpump
+        device_address: !secret alphaconnect_modbus_slave
+        address: 33 #id 33
+        input_type: input
+        data_type: uint32
+        swap: word
+        scale: 0.00001
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 600
+
+      - name: Operating hours heating system
+        unique_id: ac_operating_h_heating
+        device_address: !secret alphaconnect_modbus_slave
+        address: 34 #id 34
+        input_type: input
+        data_type: uint32
+        swap: word
+        scale: 0.00001
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 600
+
+      - name: Operating hours drinking water
+        unique_id: ac_operating_h_drinkwater
+        device_address: !secret alphaconnect_modbus_slave
+        address: 35 #id 35
+        input_type: input
+        data_type: uint32
+        swap: word
+        scale: 0.00001
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 600
+
+      #Swimmingpool or Solar hours is not installed in every unit check your hardware
+      - name: Operating hours SWoPV
+        unique_id: ac_operating_h_SWoPV
+        device_address: !secret alphaconnect_modbus_slave
+        address: 36 #id 36
+        input_type: input
+        data_type: uint32
+        swap: word
+        scale: 0.00001
+        precision: 1
+        unit_of_measurement: h
+        state_class: measurement
+        scan_interval: 600
+
+      - name: Heating system status code
+        unique_id: ac_heating_system_status_code
+        device_address: !secret alphaconnect_modbus_slave
+        address: 37 #ID 37
+        input_type: input
+        data_type: uint16
+        unit_of_measurement: ""
+        scan_interval: 30
+
+###################################TEMPLATES############################################
+template:
+  - sensor:
+      - name: Heating system status
+        unique_id: ac_heating_system_status
+        state: >
+          {% set code = states('sensor.ac_heating_system_status_code') | int %}
+          {% if code == 0 %} Heizbetrieb
+          {% elif code == 1 %} Trinkwarmwasser
+          {% elif code == 2 %} Schwimmbad
+          {% elif code == 3 %} EVU-Sperre
+          {% elif code == 4 %} Abtauen
+          {% elif code == 5 %} Aus
+          {% elif code == 6 %} Externe Energiequelle
+          {% elif code == 7 %} Kühlung
+          {% else %} Unbekannt ({{ code }})
+          {% endif %}
+        icon: >
+          {% if code == 0 %} mdi:fire
+          {% elif code == 1 %} mdi:water
+          {% elif code == 4 %} mdi:snowflake
+          {% elif code == 5 %} mdi:power
+          {% elif code == 7 %} mdi:snowflake-thermometer
+          {% else %} mdi:information
+          {% endif %}
 
 
-########################viele mehr#################################################
-
-    switches:
-      #Coils (write and read), read (0 = off, 1 on), write (0 = auto, 1 = on)
-      - name: Error reset
-        unique_id: ac_error_reset
-        address: 0
-        write_type: coils
-        command_on: 1 #force on
-        command_off: 0  #back to automatic
-
-########################viele mehr#################################################
-
-    switches:
-      #Holding registers (write and read)
-      - name: Outside temperature
-        unique_id: ac_outside_temp
-        address: 0
-        write type: holding
-        
-
-
-      # VORLAGE
-      # - name: 
-      #   unique_id: ac_
-      #   device_address: !secret alphaconnect_modbus_slave
-      #   address: 0 #ID 0
-      #   input_type: input
-      #   data_type: int16
-      #   precision: 10
-      #   unit_of_measurement: °C
-      #   device_class: Temperature
-      #   state_class: measurement
-      #   scale: 0.1
-      #   scan_interval: 30
+###END###
